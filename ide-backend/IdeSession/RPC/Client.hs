@@ -110,10 +110,11 @@ forkRpcServer :: FilePath        -- ^ Filename of the executable
               -> Maybe [(String, String)] -- ^ Environment
               -> IO RpcServer
 forkRpcServer path args workingDir menv = do
-  request <- makeSocket
-  response <- makeSocket
-
   tmpDir <- Dir.getTemporaryDirectory
+
+  request <- makeSocket tmpDir
+  response <- makeSocket tmpDir
+
   (errorLogPath, errorLogHandle) <- openTempFile tmpDir "rpc-server-.log"
   hClose errorLogHandle
 

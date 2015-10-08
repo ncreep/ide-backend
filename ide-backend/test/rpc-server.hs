@@ -500,10 +500,11 @@ testConcurrentServer _errorLog RpcConversation{..} = go
         ConcurrentServerSpawn -> do
           pipes <- newEmptyMVar :: IO (MVar (WriteChannel, ReadChannel, String))
           forkIO $ do
-            stdin <- makeSocket
-            stdout <- makeSocket
-
             tmpDir <- Dir.getTemporaryDirectory
+
+            stdin <- makeSocket tmpDir
+            stdout <- makeSocket tmpDir
+
             (errorLogPath, errorLogHandle) <- openTempFile tmpDir "rpc.log"
             hClose errorLogHandle
 

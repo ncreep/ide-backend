@@ -310,8 +310,8 @@ startConcurrentConversation sessionDir inner = do
   -- deleting the directory to the child, but instead we'll just remove the
   -- directory along with the rest of the session temp dirs on session exit.
   (stdin, stdout, errorLog) <- liftIO $ do
-    stdin <- makeSocket
-    stdout <- makeSocket
+    stdin <- makeSocket sessionDir
+    stdout <- makeSocket sessionDir
 
     tmpDir <- Dir.getTemporaryDirectory
     (errorLogPath, errorLogHandle) <- openTempFile tmpDir "rpc-snippet-.log"
